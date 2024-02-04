@@ -1,10 +1,12 @@
 package com.lb7.retrofitsample.data.network.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UserNetworkModel(
-    @SerializedName("userId") val userId: Int? = null,
-    @SerializedName("id") val id: Int? = null,
-    @SerializedName("title") val title: String? = null,
-    @SerializedName("body") val body: String? = null
+    @SerialName("userId") val userId: Int? = null,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("body") val body: String? = null
 )
