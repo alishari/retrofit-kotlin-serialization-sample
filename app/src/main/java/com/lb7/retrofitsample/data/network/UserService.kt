@@ -6,5 +6,5 @@ import retrofit2.http.Path
 
 interface UserService {
     @GET("posts/{id}")
-    suspend fun getUser(@Path("id") id: String?): Result<UserNetworkModel>
+    suspend fun getUser(@Path("id") id: String?): UserNetworkModel
 }

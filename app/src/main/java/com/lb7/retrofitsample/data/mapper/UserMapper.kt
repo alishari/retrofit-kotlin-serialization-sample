@@ -5,8 +5,8 @@ import com.lb7.retrofitsample.domain.model.User
 
 fun UserNetworkModel.toUser(): User {
     return User(
-        userId = userId.orEmpty(),
-        id = id.orEmpty(),
+        userId = userId?.toString().orEmpty(),
+        id = id?.toString().orEmpty(),
         title = title.orEmpty(),
         body = body.orEmpty()
     )

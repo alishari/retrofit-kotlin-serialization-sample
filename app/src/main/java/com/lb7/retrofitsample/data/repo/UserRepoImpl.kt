@@ -9,7 +9,10 @@ class UserRepoImpl(
     private val userService: UserService
 ) : UserRepo {
     override suspend fun getUser(id: String): Result<User> {
-        return userService.getUser(id)
-            .map { it.toUser() }
+        return try {
+            Result.success(userService.getUser(id).toUser())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }

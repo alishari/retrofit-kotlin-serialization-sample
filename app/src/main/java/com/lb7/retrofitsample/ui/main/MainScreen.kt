@@ -15,16 +15,13 @@ fun MainScreen(uiState: MainUiState) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Greeting(name = uiState.text)
+        val text = when (uiState.userStatus) {
+            UserState.Error -> "Something went wrong" // add specific error messages
+            UserState.Loading -> "Loading ..."
+            is UserState.Success -> uiState.userStatus.user.title
+        }
+        Text(text = text)
     }
-}
-
-@Composable
-private fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 
 @Preview(showBackground = true)
