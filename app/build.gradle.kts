@@ -63,6 +63,11 @@ dependencies {
     val retrofit = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofit")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit")
+    val koin = "3.4.2"
+    implementation("io.insert-koin:koin-android:$koin")
+    implementation("io.insert-koin:koin-android-compat:$koin")
+
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
