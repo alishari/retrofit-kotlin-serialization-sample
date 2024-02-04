@@ -10,12 +10,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.lb7.retrofitsample.ui.theme.RetrofitSampleTheme
 
 @Composable
-fun MainScreen() {
+fun MainScreen(uiState: MainUiState) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Greeting("Android")
+        Greeting(name = uiState.text)
     }
 }
 
@@ -31,6 +31,8 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 private fun MainScreenPreview() {
     RetrofitSampleTheme {
-        MainScreen()
+        MainScreen(
+            uiState = MainUiState()
+        )
     }
 }
