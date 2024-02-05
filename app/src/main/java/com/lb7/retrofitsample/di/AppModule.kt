@@ -14,10 +14,15 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val appModule = module {
+
+    single<Json> {
+        Json { ignoreUnknownKeys = true }
+    }
+
     single<Retrofit> {
         Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())) // should add it at last
+            .addConverterFactory(get<Json>().asConverterFactory("application/json".toMediaType())) // should add it at last
             .build()
     }
     single<UserService> {
