@@ -1,32 +1,46 @@
 package com.lb7.retrofitsample.di
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.lb7.retrofitsample.data.network.UserService
 import com.lb7.retrofitsample.data.repo.UserRepoImpl
 import com.lb7.retrofitsample.domain.repo.UserRepo
 import com.lb7.retrofitsample.ui.main.MainViewModel
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
+import org.koin.android.BuildConfig
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import retrofit2.Retrofit
+
+private const val BASE_URL = "https://jsonplaceholder.typicode.com"
 
 val appModule = module {
 
     single<Json> {
-        Json { ignoreUnknownKeys = true }
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+            prettyPrint = true
+        }
     }
 
-    single<Retrofit> {
-        Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
-            .addConverterFactory(get<Json>().asConverterFactory("application/json".toMediaType())) // should add it at last
-            .build()
+    single<HttpClient> {
+        HttpClient(CIO) {
+            if (BuildConfig.DEBUG) {
+                install(Logging)
+            }
+            install(ContentNegotiation) {
+                json(get<Json>())
+            }
+        }
     }
-    single<UserService> {
-        get<Retrofit>().create(UserService::class.java)
+
+    single {
+        UserService(get(), BASE_URL)
     }
     singleOf(::UserRepoImpl) { bind<UserRepo>() }
     viewModelOf(::MainViewModel)
